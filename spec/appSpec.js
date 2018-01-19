@@ -1,5 +1,4 @@
 const {Builder, By, until} = require('selenium-webdriver');
-const os = require('os');
 
 /* 
     this depends on node 8+ due to async/await pattern in selenium code, 
@@ -16,21 +15,21 @@ describe('basic test', function() {
     const cwd = process.cwd();
 
     beforeEach(async function() {
-        driver = await new Builder().forBrowser('firefox').build();
+        let capabilities = {
+            'browserName': 'firefox',
+            'unexpectedAlertBehavior': 'accept',
+        }
+        driver = await new Builder().withCapabilities(capabilities).build();
     });
 
     afterEach(async function() {
         await driver.quit();
     });
 
-    it('should be on correct page', async function() {
-        var match = 'The Title';
-
-        await driver.get(`file://${cwd}/index.html`);
-        let title = await driver.wait(function() {
-            return driver.getTitle()
-        }, 1000);
-
-        expect(title).toEqual(match);
+    it('should throw an alert', async function() {
+        await driver.get(`file://${cwd}/index.html`).then(async function() {
+            let alert = await driver.wait(until.alertIsPresent(), 1000);
+            console.log(alert.getText()); 
+        });
     });
 });

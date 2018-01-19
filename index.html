@@ -2,6 +2,36 @@
 <html lang="en">
     <head>
         <title>The Title</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script>
+            $(function() {
+                try {
+                    if(window.document.documentElement.getAttribute("webdriver"))
+                        alert("Webdriver session (case 1).");
+                }
+                catch(Exception){}
+                try {
+                    if(navigator.webdriver)
+                        alert("Webdriver session (case 2).");
+                }
+                catch(Exception){}
+                try {
+                    if ("__webdriver_script_fn" in document)
+                        alert("Webdriver session (case 3).");
+                }
+                catch(Exception){}
+                try {
+                    if ("_Selenium_IDE_Recorder" in window)
+                        alert("Webdriver session (case 4).");
+                }
+                catch(Exception){}
+                try {
+                    if ("webdriver" in window)
+                        alert("Webdriver session (case 5).");
+                }
+                catch(Exception){}
+            });
+        </script>
     </head>
     <body>
         <h1>The Page</h1>
