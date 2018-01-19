@@ -1,4 +1,6 @@
 const {Builder, By, until} = require('selenium-webdriver');
+const os = require('os');
+
 /* 
     this depends on node 8+ due to async/await pattern in selenium code, 
     which appeared after selenium deprecated promise manager. refs:
@@ -11,6 +13,7 @@ const {Builder, By, until} = require('selenium-webdriver');
 
 describe('basic test', function() {
     let driver;
+    const cwd = process.cwd();
 
     beforeEach(async function() {
         driver = await new Builder().forBrowser('firefox').build();
@@ -21,11 +24,9 @@ describe('basic test', function() {
     });
 
     it('should be on correct page', async function() {
-        var match = 'webdriver - Google Search';
+        var match = 'The Title';
 
-        await driver.get("http://www.google.com/ncr");
-        await driver.findElement(By.name('q')).sendKeys('webdriver'); 
-        await driver.findElement(By.name('btnK')).click();
+        await driver.get(`file://${cwd}/index.html`);
         let title = await driver.wait(function() {
             return driver.getTitle()
         }, 1000);
