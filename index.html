@@ -1,35 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+    <head
         <title>The Title</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script>
             $(function() {
-                try {
-                    if(window.document.documentElement.getAttribute("webdriver"))
-                        alert("Webdriver session (case 1).");
+                // https://stackoverflow.com/a/41220267/185319
+                // https://stackoverflow.com/a/24471222/185319
+                // https://stackoverflow.com/a/41359533/185319
+                const conditions = [
+                    window.document.documentElement.getAttribute("webdriver"),
+                    navigator.webdriver,
+                    "__webdriver_script_fn" in document,
+                    "webdriver" in window,
+                    window._selenium,
+                    document.__webdriver_evaluate,
+                    document.__selenium_evaluate,
+                    document.__webdriver_script_function,
+                    document.__webdriver_script_func,
+                    document.__webdriver_script_fn,
+                    document.__fxdriver_evaluate,
+                    document.__driver_unwrapped,
+                    document.__webdriver_unwrapped,
+                    document.__driver_evaluate,
+                    document.__selenium_unwrapped,
+                    document.__fxdriver_unwrapped,
+                    window.callSelenium,
+                    window._Selenium_IDE_Recorder,
+                    /* Not applicable to my use case, but maybe useful for someone.
+                    window.Buffer,
+                    window._phantom,
+                    window.__nightmare,
+                    window.callPhantom,
+                    window.__phantomas,
+                    window.emit,
+                    window.spawn,
+                    */
+                ]
+                for(let i=0; i<conditions.length; i++) {
+                    try {
+                        if(conditions[i]) {
+                            alert(`Detected webdriver (case ${i}, "${conditions[i] + ''}").`);
+                        }
+                    }
+                    catch(Exception){}
                 }
-                catch(Exception){}
-                try {
-                    if(navigator.webdriver)
-                        alert("Webdriver session (case 2).");
-                }
-                catch(Exception){}
-                try {
-                    if ("__webdriver_script_fn" in document)
-                        alert("Webdriver session (case 3).");
-                }
-                catch(Exception){}
-                try {
-                    if ("_Selenium_IDE_Recorder" in window)
-                        alert("Webdriver session (case 4).");
-                }
-                catch(Exception){}
-                try {
-                    if ("webdriver" in window)
-                        alert("Webdriver session (case 5).");
-                }
-                catch(Exception){}
             });
         </script>
     </head>

@@ -1,4 +1,5 @@
 const {Builder, By, until} = require('selenium-webdriver');
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 11000;
 
 /* 
     this depends on node 8+ due to async/await pattern in selenium code, 
